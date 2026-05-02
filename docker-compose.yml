@@ -6,14 +6,17 @@ services:
       - OPENAPI_OUTPUT_FILE=./shared-data/openapi.json
       - DATABASE_URL=postgresql+asyncpg://postgres:password@db:5432/mydatabase
       - TEST_DATABASE_URL=postgresql+asyncpg://postgres:password@db:5433/testdatabase
+      - ACCESS_SECRET_KEY=supersecretkey
+      - RESET_PASSWORD_SECRET_KEY=resetsecretkey
+      - VERIFICATION_SECRET_KEY=verificationsecretkey
+      - CORS_ORIGINS=["http://localhost:3000"]
       - MAIL_SERVER=mailhog
+      - MAIL_PORT=1025
     ports:
       - "8000:8000"
     networks:
       - my_network
     volumes:
-      - ./fastapi_backend:/app
-      - fastapi-venv:/app/.venv
       - ./local-shared-data:/app/shared-data
     depends_on:
       - db

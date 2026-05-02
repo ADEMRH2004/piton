@@ -1,8 +1,6 @@
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-
-const MapClient = dynamic(() => import("./client"), { ssr: false });
+import MapClient from "./client";
 
 interface Location {
   id: string;

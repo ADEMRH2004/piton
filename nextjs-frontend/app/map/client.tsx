@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
-import L from "leaflet";
+import { useEffect, useMemo, useRef, useState } from "react";
 import "leaflet/dist/leaflet.css";
 
 interface Location {
@@ -12,25 +11,35 @@ interface Location {
   longitude: number;
 }
 
-const createMarkerIcon = () =>
-  L.icon({
-    iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-    iconRetinaUrl:
-      "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-    shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    iconSize: [25, 41],
-    shadowSize: [41, 41],
-  });
-
 export default function MapClient({ locations }: { locations: Location[] }) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
-  const mapInstance = useRef<L.Map | null>(null);
-  const markerIcon = useMemo(() => createMarkerIcon(), []);
+  const mapInstance = useRef<any>(null);
+  const [L, setL] = useState<any>(null);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!mapContainer.current) {
+    setIsClient(true);
+    // Dynamically import leaflet only on client side
+    import('leaflet').then((leaflet: any) => {
+      setL(leaflet.default);
+    });
+  }, []);
+
+  const markerIcon = useMemo(() => {
+    if (!L) return null;
+    return L.icon({
+      iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+      iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      iconSize: [25, 41],
+      shadowSize: [41, 41],
+    });
+  }, [L]);
+
+  useEffect(() => {
+    if (!L || !mapContainer.current || !isClient) {
       return;
     }
 
@@ -42,18 +51,17 @@ export default function MapClient({ locations }: { locations: Location[] }) {
       });
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution:
-          '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
       }).addTo(mapInstance.current);
     }
 
-    const markers: L.Marker[] = [];
-    const bounds: L.LatLngExpression[] = [];
+    const markers: any[] = [];
+    const bounds: any[] = [];
 
     locations.forEach((location) => {
       const marker = L.marker([location.latitude, location.longitude], {
         icon: markerIcon,
-      }).addTo(mapInstance.current!);
+      }).addTo(mapInstance.current);
 
       marker.bindPopup(`
         <strong>${location.name}</strong><br />
@@ -68,9 +76,17 @@ export default function MapClient({ locations }: { locations: Location[] }) {
     }
 
     return () => {
-      markers.forEach((marker) => marker.remove());
+      markers.forEach((marker: any) => marker.remove());
     };
-  }, [locations, markerIcon]);
+  }, [locations, markerIcon, L, isClient]);
+
+  if (!isClient) {
+    return (
+      <div className="h-[60vh] min-h-[420px] w-full rounded-3xl border border-gray-200 bg-slate-50 flex items-center justify-center">
+        <p>Loading map...</p>
+      </div>
+    );
+  }
 
   return (
     <div
