@@ -22,7 +22,10 @@ export default function Home() {
             </Button>
           </Link>
           <Link href="/map">
-            <Button variant="outline" className="px-8 py-4 text-xl font-semibold rounded-full border-gray-300 text-slate-900 hover:bg-slate-100">
+            <Button
+              variant="outline"
+              className="px-8 py-4 text-xl font-semibold rounded-full border-gray-300 text-slate-900 hover:bg-slate-100"
+            >
               Open Leaflet Map
             </Button>
           </Link>

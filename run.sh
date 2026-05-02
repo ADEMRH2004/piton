@@ -27,18 +27,25 @@ function ensure_node_tools() {
 }
 
 function ensure_uv() {
-  if ! command -v uv >/dev/null 2>&1; then
-    echo "uv not found, installing via pip..."
-    python3 -m pip install --user uv
-    export PATH="$HOME/.local/bin:$PATH"
+  if [ -x "$BACKEND_DIR/.venv/bin/uv" ]; then
+    return
   fi
+
+  if [ ! -d "$BACKEND_DIR/.venv" ]; then
+    echo "Creating backend virtual environment..."
+    python3 -m venv "$BACKEND_DIR/.venv"
+  fi
+
+  echo "Installing uv into backend virtual environment..."
+  "$BACKEND_DIR/.venv/bin/python" -m pip install --upgrade pip
+  "$BACKEND_DIR/.venv/bin/python" -m pip install uv
 }
 
 function install_backend() {
   echo "Installing backend dependencies..."
   ensure_uv
   cd "$BACKEND_DIR"
-  uv sync --frozen
+  PATH="$BACKEND_DIR/.venv/bin:$PATH" uv sync --frozen
 }
 
 function install_frontend() {

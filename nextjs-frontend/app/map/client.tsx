@@ -24,11 +24,7 @@ const createMarkerIcon = () =>
     shadowSize: [41, 41],
   });
 
-export default function MapClient({
-  locations,
-}: {
-  locations: Location[];
-}) {
+export default function MapClient({ locations }: { locations: Location[] }) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<L.Map | null>(null);
   const markerIcon = useMemo(() => createMarkerIcon(), []);
@@ -46,7 +42,8 @@ export default function MapClient({
       });
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
+        attribution:
+          '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors',
       }).addTo(mapInstance.current);
     }
 
