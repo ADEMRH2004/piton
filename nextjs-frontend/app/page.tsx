@@ -15,12 +15,18 @@ export default function Home() {
           development using Next.js and FastAPI.
         </p>
 
-        {/* Link to Dashboard */}
-        <Link href="/dashboard">
-          <Button className="px-8 py-4 text-xl font-semibold rounded-full shadow-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 focus:ring-4 focus:ring-blue-300">
-            Go to Dashboard
-          </Button>
-        </Link>
+        <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <Link href="/dashboard">
+            <Button className="px-8 py-4 text-xl font-semibold rounded-full shadow-lg bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 focus:ring-4 focus:ring-blue-300">
+              Go to Dashboard
+            </Button>
+          </Link>
+          <Link href="/map">
+            <Button variant="outline" className="px-8 py-4 text-xl font-semibold rounded-full border-gray-300 text-slate-900 hover:bg-slate-100">
+              Open Leaflet Map
+            </Button>
+          </Link>
+        </div>
 
         {/* GitHub Badge */}
         <div className="mt-6">

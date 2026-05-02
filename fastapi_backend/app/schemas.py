@@ -32,3 +32,20 @@ class ItemRead(ItemBase):
     user_id: UUID
 
     model_config = {"from_attributes": True}
+
+
+class LocationBase(BaseModel):
+    name: str
+    description: str | None = None
+    latitude: float
+    longitude: float
+
+
+class LocationCreate(LocationBase):
+    pass
+
+
+class LocationRead(LocationBase):
+    id: UUID
+
+    model_config = {"from_attributes": True}
