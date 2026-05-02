@@ -487,7 +487,8 @@ watchdog==5.0.3 \
 watchfiles==1.0.3 \
     --hash=sha256:0d1ec043f02ca04bf21b1b32cab155ce90c651aaf5540db8eb8ad7f7e645cba8 \
     --hash=sha256:1df924ba82ae9e77340101c28d56cbaff2c991bd6fe8444a545d24075abb0a87 \
-    --hash=sha256:48681c86f2cb08348631fed788a116c89c787fdf1e6381c5febafd782f6c3b44 \
+    --hash=sha256:48681c86f2cb08348631fed788a116c89c787fdf1e6381c5febafd782f6c3b44
+geoalchemy2==0.14.8 \
     --hash=sha256:49bc1bc26abf4f32e132652f4b3bfeec77d8f8f62f57652703ef127e85a3e38d \
     --hash=sha256:632a52dcaee44792d0965c17bdfe5dc0edad5b86d6a29e53d6ad4bf92dc0ff49 \
     --hash=sha256:65ab1fb635476f6170b07e8e21db0424de94877e4b76b7feabfe11f9a5fc12b5 \
